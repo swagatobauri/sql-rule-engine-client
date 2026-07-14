@@ -49,13 +49,15 @@ export type SchemaName = (typeof SCHEMA_NAMES)[number];
 
 // Student-safe projection returned by the public problems API (camelCase).
 export interface PublicProblem {
-  id: string;
+  id?: string;
+  problem_id?: string;
   slug?: string;
   title: string;
   difficulty?: string;
-  schemaName: string;
-  pattern: string;
-  concepts: string[];
+  schemaName?: string;
+  schema?: string;
+  pattern?: string;
+  concepts?: string[];
   problemStatement?: string;
   followupQuestion?: string;
 }

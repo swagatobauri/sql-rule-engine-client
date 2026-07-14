@@ -8,26 +8,26 @@ export const SESSION = {
   time: 15,
   title: "Find customers who placed an order but never made a repeat purchase.",
   description:
-    "Return the customer_id, customer_name and the date of their first (and only) order.",
+    "Return the customer_id, first_name, last_name and the date of their first (and only) order.",
   businessContext:
     "The marketing team wants to identify one-time customers for a re-engagement campaign.",
   database: "EcommerceDB",
 };
 
 export const EXPECTED_OUTPUT = {
-  columns: ["customer_id", "customer_name", "first_order_date"],
+  columns: ["customer_id", "first_name", "last_name", "first_order_date"],
   rows: [
-    ["101", "John Doe", "2023-08-10"],
-    ["205", "Alice Brown", "2023-08-15"],
-    ["...", "...", "..."],
+    ["101", "John", "Doe", "2023-08-10"],
+    ["205", "Alice", "Brown", "2023-08-15"],
+    ["...", "...", "...", "..."],
   ],
 };
 
 export const RESULT = {
-  columns: ["customer_id", "customer_name", "first_order_date"],
+  columns: ["customer_id", "first_name", "last_name", "first_order_date"],
   rows: [
-    ["101", "John Doe", "2023-08-10"],
-    ["205", "Alice Brown", "2023-08-15"],
+    ["101", "John", "Doe", "2023-08-10"],
+    ["205", "Alice", "Brown", "2023-08-15"],
   ],
   rowCount: 2,
   durationMs: 243,
@@ -36,11 +36,12 @@ export const RESULT = {
 export const SCHEMA = [
   {
     name: "customers",
-    columnCount: 3,
+    columnCount: 4,
     columns: [
       ["customer_id", "INT", "PK"],
-      ["customer_name", "VARCHAR", ""],
-      ["signup_date", "DATE", ""],
+      ["first_name", "VARCHAR", ""],
+      ["last_name", "VARCHAR", ""],
+      ["created_at", "DATE", ""],
     ],
   },
   {
@@ -68,7 +69,8 @@ export const SCHEMA = [
 export const DEFAULT_QUERY = `-- Write your SQL query here
 SELECT
     c.customer_id,
-    c.customer_name,
+    c.first_name,
+    c.last_name,
     MIN(o.order_date) AS first_order_date
 FROM customers c
 JOIN orders o ON c.customer_id = o.customer_id
@@ -78,7 +80,7 @@ WHERE c.customer_id NOT IN (
     GROUP BY customer_id
     HAVING COUNT(*) > 1
 )
-GROUP BY c.customer_id, c.customer_name
+GROUP BY c.customer_id, c.first_name, c.last_name
 ORDER BY first_order_date;`;
 
 export const RUBRIC = [

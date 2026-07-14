@@ -36,11 +36,11 @@ export default function QuestionExplorer() {
   const questions = useMemo<Question[]>(
     () =>
       (problems ?? []).map((p) => ({
-        id: p.id,
+        id: (p.id || p.problem_id) as string,
         title: p.title,
-        schemaName: p.schemaName,
+        schemaName: (p.schemaName || p.schema || "Unknown") as string,
         difficulty: p.difficulty ?? "Unknown",
-        concepts: p.concepts,
+        concepts: p.concepts || (p.pattern ? [p.pattern] : []),
       })),
     [problems],
   );

@@ -203,7 +203,7 @@ export default function PracticeProvider({ children }: { children: ReactNode }) 
   }, []);
 
   const { data: problem } = useProblem(problemId);
-  const schemaName = (problem?.schemaName as SchemaName | undefined) ?? "ecommerce";
+  const schemaName = (problem?.schemaName as SchemaName | undefined) ?? (problem?.schema as SchemaName | undefined) ?? "ecommerce";
   const isLive = Boolean(problemId);
 
   const evaluate = useEvaluate();
